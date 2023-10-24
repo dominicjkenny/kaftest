@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Kafka
+kafka_2.13-3.6.0
+
+package-lock.json

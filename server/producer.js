@@ -1,16 +1,34 @@
-import kafka from './Kafka.js';
+import kafka from './Kafka.js'
 import { Chance } from 'chance';
 
-const producer = kafka.producer();
+const chance = new Chance();
 
-await producer.connect();
-console.log('producer connected');
-await producer.send({
-  topic: 'animals',
-  messages: [{ value: 'Hello World!' }],
-});
-console.log('producer methods: ', producer);
-await producer.disconnect();
-console.log('producer disconnected');
+const producer = kafka.producer()
+
+await producer.connect()
+console.log('producer connected')
+
+// function randomVal() {
+//   return Chance.animal();
+// }
+
+async function action() {
+  await producer.send({
+      topic: 'test-topic',
+      messages: [
+          { value: chance.animal()},
+      ],
+  })
+
+}
+const dataStream = setInterval(async () => {await action()}, 1000)
+
+setTimeout(async () => {
+    clearInterval(dataStream)
+    await producer.disconnect()
+    console.log('producer disconnected')
+}, 10100)
+
+
 
 export default producer;
